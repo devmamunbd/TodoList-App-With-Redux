@@ -1,6 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const TodoList = () => {
+
+    const todos = useSelector((state) => state.todos);
+    console.log(todos)
+
   return (
     <div className='flex flex-col items-center bg-white shadow-md px-10 py-5 rounded-md'>
         <div>
@@ -15,10 +20,14 @@ const TodoList = () => {
 
         <div className='mt-5'>
         <ul className='space-y-2'>
-            <li className='flex justify-between items-center gap-10'>
-               <span className='border border-gray-900 px-10 py-2'> Item 1</span>
+            {
+                todos.length > 0 ? todos.map((todo)=> (
+                    <li key={todo.id} className='flex justify-between items-center gap-10'>
+               <span className='border border-gray-900 px-10 py-2'>{todo.text}</span>
                <button className='border border-gray-900 px-6 py-2 hover:underline'>Remove</button>
             </li>
+                )) : "no todo"
+            }
 
         </ul>
         </div>
