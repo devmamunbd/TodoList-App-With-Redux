@@ -1,10 +1,22 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTodo } from '../../redux/features/todos/TodoSlice';
 
 const TodoList = () => {
-
+    const [text, setText] = useState('')
     const todos = useSelector((state) => state.todos);
+    const dispatch = useDispatch()
     console.log(todos)
+    console.log(text)
+
+    const handleAddTodo =(e)=> {
+        e.preventDefault();
+        console.log(text)
+        if (text.trim()) {
+            dispatch(addTodo(text));
+            setText('')
+        }
+    }
 
   return (
     <div className='flex flex-col items-center bg-white shadow-md px-10 py-5 rounded-md'>
@@ -14,8 +26,12 @@ const TodoList = () => {
 
 
         <div className='flex justify-between items-center gap-10 mt-5'>
-        <input className='w-full outline-none rounded-md border border-gray-400 p-2' type="text" placeholder='Add a Todo' />
-        <button className='bg-blue-500 px-10 py-2 rounded-md text-white font-semibold'>Add</button>
+        <input
+        value={text}
+        onChange={(e)=> setText(e.target.value)}
+        className='w-full outline-none rounded-md border border-gray-400 p-2'
+         type="text" placeholder='Add a Todo' />
+        <button onClick={handleAddTodo} className='bg-blue-500 px-10 py-2 rounded-md text-white font-semibold'>Add</button>
         </div>
 
         <div className='mt-5'>
@@ -26,7 +42,7 @@ const TodoList = () => {
                <span className='border border-gray-900 px-10 py-2'>{todo.text}</span>
                <button className='border border-gray-900 px-6 py-2 hover:underline'>Remove</button>
             </li>
-                )) : "no todo"
+                )) : <li className='text-red-500 font-semibold text-xl'>No Task Found</li>
             }
 
         </ul>
