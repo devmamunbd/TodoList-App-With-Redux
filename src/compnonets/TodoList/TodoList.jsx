@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addTodo } from '../../redux/features/todos/TodoSlice';
+import { addTodo, removeTodo, toggleTogo } from '../../redux/features/todos/TodoSlice';
 
 const TodoList = () => {
     const [text, setText] = useState('')
@@ -39,8 +39,12 @@ const TodoList = () => {
             {
                 todos.length > 0 ? todos.map((todo)=> (
                     <li key={todo.id} className='flex justify-between items-center gap-10'>
-               <span className='border border-gray-900 px-10 py-2'>{todo.text}</span>
-               <button className='border border-gray-900 px-6 py-2 hover:underline'>Remove</button>
+               <span
+
+               onClick={()=> dispatch(toggleTogo(todo.id))} className={`border border-gray-900 px-10 py-2 ${todo.completed? "line-through text-gray-500" : ''}`}>{todo.text}</span>
+               <button
+                onClick={()=> dispatch(removeTodo(todo.id))}
+               className='border border-gray-900 px-6 py-2 hover:underline'>Remove</button>
             </li>
                 )) : <li className='text-red-500 font-semibold text-xl'>No Task Found</li>
             }
